@@ -11,6 +11,8 @@ struct ContentView: View {
     @State private var messageString = ""
     @State private var imageName = ""
     @State private var imageNumber = 0
+    @State private var quoteNumber = 0
+    
     
     var body: some View {
         
@@ -38,21 +40,25 @@ struct ContentView: View {
             
             
             Button("Show Message") {
-                let message1 = "You Are Great!"
-                let message2 = "You Are Awesome!"
-
+                let message = ["Imagine, Create, Design!",
+                               "Design is Everything!",
+                               "Engineering, Art and Creativity!",
+                               "Creativity is intelligenec!"]
                 
-                messageString = (messageString == message1 ? message2 : message1)
-                
-//                imageName = (imageName == imageA ? imageB : imageA)
-                
-                //TODO: update the imageName variable -
+                messageString = message[quoteNumber]
+                quoteNumber += 1
+                if quoteNumber == (message.count) {
+                    quoteNumber = 0
+                }
+                print(messageString)
+            
                 imageName = "image\(imageNumber)"
                 imageNumber += 1
                 if imageNumber > 9 {
                     imageNumber = 0
                 }
                 print(imageNumber)
+                
 
             }
             .buttonStyle(.borderedProminent)
