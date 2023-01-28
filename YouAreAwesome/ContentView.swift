@@ -11,8 +11,6 @@ struct ContentView: View {
     @State private var messageString = ""
     @State private var imageName = ""
     @State private var imageNumber = 0
-    @State private var quoteNumber = 0
-    
     
     var body: some View {
         
@@ -43,23 +41,15 @@ struct ContentView: View {
                 let message = ["Imagine, Create, Design!",
                                "Design is Everything!",
                                "Engineering, Art and Creativity!",
-                               "Creativity is intelligenec!"]
+                               "Creativity is intelligence!",
+                               "Visualize and Create"]
                 
-                messageString = message[quoteNumber]
-                quoteNumber += 1
-                if quoteNumber == (message.count) {
-                    quoteNumber = 0
-                }
-                print(messageString)
-            
-                imageName = "image\(imageNumber)"
-                imageNumber += 1
-                if imageNumber > 9 {
-                    imageNumber = 0
-                }
-                print(imageNumber)
                 
-
+                messageString = message[Int.random(in: 0...(message.count - 1))]
+                
+                imageName = "image\(Int.random(in: 0...9))"
+                print(imageName)
+                
             }
             .buttonStyle(.borderedProminent)
             
