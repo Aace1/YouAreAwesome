@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import AVFAudio
 
 struct ContentView: View {
     @State private var messageString = ""
     @State private var imageName = ""
+    @State private var soundName = ""
     @State private var lastMessageNumber = -1
     @State private var lastImageNumber = -1
+    @State private var lastSoundNumber = -1
+    @State private var audoPlayer: AVAudioPlayer!
     
     var body: some View {
         
@@ -35,12 +39,14 @@ struct ContentView: View {
             Spacer()
             
             Button("Show Message") {
-                let message = ["Imagine, Create, Design!",
-                               "Design is Everything!",
-                               "Engineering, Art and Creativity!",
-                               "Creativity is intelligence!",
+                let message = ["Imagine, Create, Design",
+                               "Design is Everything",
+                               "Engineering, Art and Creativity",
+                               "Creativity is intelligence",
                                "Visualize and Create",
-                               "Design Fuses Art With Engineering"]
+                               "Design Fuses Art With Engineering",
+                               "Lines, Symmetry and Flow",
+                               "Design Communicates the Experience"]
                 
                 var messageNumber = Int.random(in: 0...message.count-1)
                 while messageNumber == lastMessageNumber {
@@ -49,13 +55,33 @@ struct ContentView: View {
                 messageString = message[messageNumber]
                 lastMessageNumber = messageNumber
                 
-                //                imageName = "image\(Int.random(in: 0...9))"
                 var imageNumber = Int.random(in: 0...9)
                 while imageNumber == lastImageNumber {
                     imageNumber = Int.random(in: 0...9)
                 }
                 imageName = "image\(imageNumber)"
                 lastImageNumber = imageNumber
+                
+                var soundNumber = Int.random(in: 0...7)
+                while soundNumber == lastSoundNumber {
+                    soundNumber = Int.random(in: 0...7)
+                }
+                soundName = "sound\(soundNumber)"
+                lastSoundNumber = soundNumber
+                
+                guard let soundFile = NSDataAsset(name: soundName) else
+                {
+                    print("😡 Could not read file named \(soundName)")
+                    return
+                }
+                do {
+                    audoPlayer = try AVAudioPlayer(data: soundFile.data)
+                    audoPlayer.play()
+                } catch {
+                    print("😡 ERROR: \(error.localizedDescription) creating audioPlayer.")
+                }
+                
+                
             }
             .buttonStyle(.borderedProminent)
             
