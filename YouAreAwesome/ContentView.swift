@@ -46,34 +46,19 @@ struct ContentView: View {
                                "Lines, Symmetry and Flow",
                                "Design Communicates the Experience"]
                 
-                var messageNumber: Int
-//                repeat {
-//                    messageNumber = Int.random(in: 0...message.count-1)
-//                } while messageNumber == lastMessageNumber
-                messageNumber = nonRepeatingRandom(lastNumber: lastMessageNumber, upperBounds: message.count-1)
-                messageString = message[messageNumber]
-                lastMessageNumber = messageNumber
+                lastMessageNumber = nonRepeatingRandom(lastNumber: lastMessageNumber, upperBounds: message.count-1)
+                messageString = message[lastMessageNumber]
                 
-                var imageNumber: Int
-                repeat {
-                    imageNumber = Int.random(in: 0...9)
-                } while imageNumber == lastImageNumber
-                imageName = "image\(imageNumber)"
-                lastImageNumber = imageNumber
+                lastImageNumber = nonRepeatingRandom(lastNumber: lastImageNumber, upperBounds: 9)
+                imageName = "image\(lastImageNumber)"
                 
-                var soundNumber: Int
-                repeat {
-                    soundNumber = Int.random(in: 0...7)
-                } while soundNumber == lastSoundNumber
-                lastSoundNumber = soundNumber
-                
-                playSound(soundName: "sound\(soundNumber)")
-                
+                lastSoundNumber = nonRepeatingRandom(lastNumber: lastSoundNumber, upperBounds: 7)
+                playSound(soundName: "sound\(lastSoundNumber)")
             }
             .buttonStyle(.borderedProminent)
-            
-            .padding()
+        
         }
+        .padding()
     }
     
     func playSound(soundName: String) {
