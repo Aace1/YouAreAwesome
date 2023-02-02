@@ -14,7 +14,9 @@ struct ContentView: View {
     @State private var lastMessageNumber = -1
     @State private var lastImageNumber = -1
     @State private var lastSoundNumber = -1
-    @State private var audoPlayer: AVAudioPlayer!
+    @State private var audioPlayer: AVAudioPlayer!
+    @State private var soundIsON = true
+    
     
     var body: some View {
         VStack {
@@ -36,27 +38,43 @@ struct ContentView: View {
             
             Spacer()
             
-            Button("Show Message") {
-                let message = ["Imagine, Create, Design",
-                               "Design is Everything",
-                               "Engineering, Art and Creativity",
-                               "Creativity is intelligence",
-                               "Visualize and Create",
-                               "Design Fuses Art With Engineering",
-                               "Lines, Symmetry and Flow",
-                               "Design Communicates the Experience"]
+            HStack {
                 
-                lastMessageNumber = nonRepeatingRandom(lastNumber: lastMessageNumber, upperBounds: message.count-1)
-                messageString = message[lastMessageNumber]
+                Text("Sound ON:")
+                Toggle("Sound On", isOn: $soundIsON)
+                    .labelsHidden()
+                    .onChange(of: soundIsON) { _ in
+                        if audioPlayer != nil && audioPlayer.isPlaying {
+                            audioPlayer.stop()
+                        }
+                    }
                 
-                lastImageNumber = nonRepeatingRandom(lastNumber: lastImageNumber, upperBounds: 9)
-                imageName = "image\(lastImageNumber)"
+                Spacer()
                 
-                lastSoundNumber = nonRepeatingRandom(lastNumber: lastSoundNumber, upperBounds: 7)
-                playSound(soundName: "sound\(lastSoundNumber)")
+                Button("Show Message") {
+                    let message = ["Imagine, Create, Design",
+                                   "Design is Everything",
+                                   "Engineering, Art and Creativity",
+                                   "Creativity is intelligence",
+                                   "Visualize and Create",
+                                   "Design Fuses Art With Engineering",
+                                   "Lines, Symmetry and Flow",
+                                   "Design Communicates the Experience"]
+                    
+                    lastMessageNumber = nonRepeatingRandom(lastNumber: lastMessageNumber, upperBounds: message.count-1)
+                    messageString = message[lastMessageNumber]
+                    
+                    lastImageNumber = nonRepeatingRandom(lastNumber: lastImageNumber, upperBounds: 9)
+                    imageName = "image\(lastImageNumber)"
+                    
+                    lastSoundNumber = nonRepeatingRandom(lastNumber: lastSoundNumber, upperBounds: 7)
+                    if soundIsON {
+                        playSound(soundName: "sound\(lastSoundNumber)")
+                    }
+                }
+                .buttonStyle(.borderedProminent)
             }
-            .buttonStyle(.borderedProminent)
-        
+            
         }
         .padding()
     }
@@ -67,8 +85,8 @@ struct ContentView: View {
             return
         }
         do {
-            audoPlayer = try AVAudioPlayer(data: soundFile.data)
-            audoPlayer.play()
+            audioPlayer = try AVAudioPlayer(data: soundFile.data)
+            audioPlayer.play()
         } catch {
             print("😡 ERROR: \(error.localizedDescription) creating audioPlayer.")
         }
