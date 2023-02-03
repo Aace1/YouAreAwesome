@@ -29,12 +29,14 @@ struct ContentView: View {
                 .frame(height: 150)
                 .frame(maxWidth: .infinity)
                 .padding()
+                .animation(.easeIn(duration: 0.15), value: messageString)
             
             Image(imageName)
                 .resizable()
                 .scaledToFit()
                 .cornerRadius(30)
                 .padding()
+                .animation(.default, value: messageString)
             
             Spacer()
             
@@ -74,6 +76,8 @@ struct ContentView: View {
                 }
                 .buttonStyle(.borderedProminent)
             }
+            .tint(.accentColor)
+            
             
         }
         .padding()
